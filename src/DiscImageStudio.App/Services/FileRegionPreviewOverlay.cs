@@ -5,6 +5,7 @@ using DiscImageStudio.BluRay;
 using DiscImageStudio.Cd;
 using DiscImageStudio.Core;
 using DiscImageStudio.Dvd;
+using DvdImageSolver;
 
 namespace DiscImageStudio.Services;
 
@@ -12,6 +13,23 @@ namespace DiscImageStudio.Services;
 /// burn streams never pass through this presentation layer.</summary>
 internal static class FileRegionPreviewOverlay
 {
+    internal static (double Inner, double Outer) DvdLayer1Ring(
+        DvdStreamingOptions geometry, uint split, HybridIsoImageWriter.LayoutPlan layout)
+    {
+        uint occupied = layout.DataEndLbaExclusive - layout.FileDataStartLba;
+        uint capacity = layout.VolumeSectors - split;
+        double length = capacity * 38688.0 * geometry.ChannelBitLengthNm * 1e-6;
+        var track = DvdTrackGeometry.Create(geometry.InnerRadiusMm, geometry.OutputOuterRadiusMm,
+            length, geometry.PitchLinear, geometry.PitchQuadratic, geometry.PitchCubic);
+        // OTP writes L1 from the outer edge, so the final sectors lie at the inner edge.
+        return (geometry.InnerRadiusMm, track.RadiusAtArcLength(length * occupied / capacity));
+    }
+
+    internal static void ApplyDvdLayer1(string path, double previewOuter,
+        (double Inner, double Outer) ring, CancellationToken token)
+        => Apply(path, ring.Inner, ring.Outer, 0, 0, dvdPixelCoordinates: true, token,
+            dvdLayer1: true, imageOuterRadius: previewOuter);
+
     internal static void ApplyCd(string path, CdDiscParameters actual,
         uint drawingStartLba, uint drawingEndLbaExclusive, CancellationToken token = default)
     {
@@ -57,7 +75,7 @@ internal static class FileRegionPreviewOverlay
 
     private static void Apply(string path, double inner, double outer,
         double drawingInner, double drawingOuter, bool dvdPixelCoordinates, CancellationToken token,
-        double? cdImageOuterRadius = null)
+        double? cdImageOuterRadius = null, bool dvdLayer1 = false, double? imageOuterRadius = null)
     {
         token.ThrowIfCancellationRequested();
         BitmapSource source;
@@ -76,7 +94,7 @@ internal static class FileRegionPreviewOverlay
         byte[] pixels = new byte[checked(stride * size)];
         source.CopyPixels(pixels, stride, 0);
         double centre = cdImageOuterRadius.HasValue ? size / 2.0 : (size - 1) / 2.0;
-        double mmPerPixel = (cdImageOuterRadius ?? outer) * 2 / (dvdPixelCoordinates ? size - 1 : size);
+        double mmPerPixel = (imageOuterRadius ?? cdImageOuterRadius ?? outer) * 2 / (dvdPixelCoordinates ? size - 1 : size);
         double innerSquared = inner * inner, outerSquared = outer * outer;
         double drawingInnerSquared = drawingInner * drawingInner;
         double drawingOuterSquared = drawingOuter * drawingOuter;
@@ -92,6 +110,15 @@ internal static class FileRegionPreviewOverlay
                     || radiusSquared >= drawingInnerSquared && radiusSquared < drawingOuterSquared)
                     continue;
                 int offset = y * stride + x * 4;
+                if (dvdLayer1)
+                {
+                    double artwork = 0.55 * pixels[offset + 3] / 255;
+                    pixels[offset] = (byte)Math.Round(255 + artwork * (pixels[offset] - 255));
+                    pixels[offset + 1] = (byte)Math.Round(133 + artwork * (pixels[offset + 1] - 133));
+                    pixels[offset + 2] = (byte)Math.Round(51 + artwork * (pixels[offset + 2] - 51));
+                    pixels[offset + 3] = 255;
+                    continue;
+                }
                 // Theme blue #3385FF, matching the preview legend and the design guide.
                 // File data is deliberately not passed through the black/white classifier.
                 pixels[offset] = 0xFF;

@@ -263,6 +263,21 @@
                                                Visibility="{Binding IsBluRayFieldsVisibility}"
                                                Text="{loc:Text Xaml.SingleLayerBDRSectorsMustBeAMultiple}" />
                                 </WrapPanel>
+                                <controls:VisibilityGate IsOpen="{Binding ShowDvdLayerSettings}" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabel}" Text="{loc:Text Xaml.DvdDlLayerBreak}" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0"
+                                                       Text="{Binding DvdLayerSettings.DvdLayerFormat}" />
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0"
+                                                       Text="{Binding DvdLayerSettings.DvdLayerBreak}" />
+                                            <Button Style="{StaticResource CompactButton}" Content="{loc:Text Xaml.ReadDvdDlLayerBreak}"
+                                                    Command="{Binding DvdLayerSettings.ReadDvdLayerBreakCommand}" />
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource HintText}" TextWrapping="Wrap"
+                                                   Text="{Binding DvdLayerSettings.DvdLayerReadStatus}" />
+                                    </StackPanel>
+                                </controls:VisibilityGate>
                                 <StackPanel Margin="0,0,0,4"
                                             Visibility="{Binding EditModeVisibility}">
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">

@@ -165,6 +165,9 @@ public partial class ProjectDialogViewModel : ObservableObject
 
     /// <summary>Template picking exists on both paths; in project settings the family is fixed
     /// and the list only offers presets of that family.</summary>
+    public ExportViewModel? DvdLayerSettings { get; internal set; }
+    public bool ShowDvdLayerSettings => DvdLayerSettings is not null;
+
     public System.Windows.Visibility EditModeVisibility => _editMode
         ? System.Windows.Visibility.Visible
         : System.Windows.Visibility.Collapsed;

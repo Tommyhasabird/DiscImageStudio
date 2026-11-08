@@ -9,6 +9,8 @@ using DiscImageStudio.Core;
 using DiscImageStudio.Dvd;
 using DiscImageStudio.Imaging;
 using DiscImageStudio.Services;
+using DvdImageSolver;
+using DvdImageSolver.Encoding;
 using DvdImageSolver.Solver;
 
 namespace DiscImageStudio.ViewModels;
@@ -128,6 +130,9 @@ public partial class LivePreviewViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _hasFileRegionOverlay;
+
+    [ObservableProperty]
+    private bool _hasDvdLayer1Overlay;
 
     public LivePreviewViewModel(Dispatcher dispatcher, ShellViewModel shell, DiscParametersState state)
     {
@@ -945,6 +950,7 @@ public partial class LivePreviewViewModel : ObservableObject
                 out string imagePath,
                 out CalibrationPreviewOptions options,
                 out DvdHybridStreamingPlan? filePlan,
+                out var layer1Ring,
                 out string message))
         {
             SetLivePreviewUnavailable(message);
@@ -958,11 +964,13 @@ public partial class LivePreviewViewModel : ObservableObject
         try
         {
             outputPath = TempFiles.GetCacheFilePath($"dvd-live-warp-{revision}.png");
-            DvdStreamingOptions actual = ReadDvdPreviewGeometry(calibration: true);
+            DvdStreamingOptions actual = ReadDvdPreviewGeometry(calibration: true, useExportLayout: true);
             await StaWorker.RunAsync(() =>
             {
                 CalibrationPreviewRenderer.Render(imagePath, outputPath, options, cancellationToken);
-                if (filePlan is not null)
+                if (layer1Ring is { } ring)
+                    FileRegionPreviewOverlay.ApplyDvdLayer1(outputPath, actual.OutputOuterRadiusMm, ring, cancellationToken);
+                else if (filePlan is not null)
                     FileRegionPreviewOverlay.ApplyDvd(outputPath, actual,
                         filePlan.DrawingStartLba, filePlan.DrawingEndLbaExclusive, cancellationToken);
                 return 0;
@@ -974,7 +982,8 @@ public partial class LivePreviewViewModel : ObservableObject
                 return;
             }
 
-            PublishPreview(outputPath, imagePath, L.T("预览 - DVD"), filePlan is not null);
+            PublishPreview(outputPath, imagePath, L.T("预览 - DVD"),
+                filePlan is not null || layer1Ring.HasValue, hasDvdLayer1Overlay: layer1Ring.HasValue);
             keepOutput = true;
             SetReadyStatus(() => L.F($"已实时更新 · 标定预览 · CW · 抖动 {_state.DvdTone.DitherStrength * 100:0}%")
                 + L.F($" · {outputSize} px · 每扇区 {samplesPerSector} 个采样"));
@@ -1199,7 +1208,7 @@ public partial class LivePreviewViewModel : ObservableObject
             filesAtOuterRing: dataDirectory.Length > 0 && _state.BdFilesAtOuterRing);
     }
 
-    private DvdStreamingOptions ReadDvdPreviewGeometry(bool calibration)
+    private DvdStreamingOptions ReadDvdPreviewGeometry(bool calibration, bool useExportLayout = false)
     {
         uint sectors = checked((uint)ParameterParser.ParsePositiveLong(_state.DvdTotalSectors, L.T("总扇区数")));
         DvdStreamingOptions options = new(sectors,
@@ -1209,6 +1218,17 @@ public partial class LivePreviewViewModel : ObservableObject
             PitchQuadratic: ParameterParser.ParseDouble(calibration ? _state.DvdActualPitchQuadratic : _state.DvdPitchQuadratic, L.T("相对二次项")),
             PitchCubic: ParameterParser.ParseDouble(calibration ? _state.DvdActualPitchCubic : _state.DvdPitchCubic, L.T("相对三次项")),
             UsableSectors: checked((uint)_state.GetUsableSectors(OpticalDiscFamily.Dvd)));
+        if (useExportLayout && _shell.Export.ExportDualLayerDvd)
+        {
+            var (split, minusTotal) = _shell.Export.GetDvdLayerLayout();
+            var generated = _shell.Export.GetDvdOptions(split, minusTotal);
+            options = options with
+            {
+                TotalSectors = generated.TotalSectors,
+                UsableSectors = generated.UsableSectors,
+                ChannelBitLengthNm = generated.ChannelBitLengthNm,
+            };
+        }
         options.Validate();
         return options;
     }
@@ -1239,13 +1259,14 @@ public partial class LivePreviewViewModel : ObservableObject
     /// <summary>Adopts a rendered preview as the canvas content and the export source, and
     /// retires the previous temporary file.</summary>
     private void PublishPreview(string outputPath, string inputPath, string titleKey,
-        bool hasFileRegionOverlay = false)
+        bool hasFileRegionOverlay = false, bool hasDvdLayer1Overlay = false)
     {
         string? previousPath = _lastLivePreviewPath;
         _lastLivePreviewPath = outputPath;
         _downloadablePreview = true;
         bool loaded = ShowResultPreview(outputPath);
         HasFileRegionOverlay = hasFileRegionOverlay && loaded;
+        HasDvdLayer1Overlay = hasDvdLayer1Overlay && loaded;
         _isLivePreviewReady = true;
         _resultTitleKey = titleKey;
         ResultPreviewTitle = L.T(titleKey);
@@ -1410,9 +1431,7 @@ public partial class LivePreviewViewModel : ObservableObject
         {
             long totalSectorsValue = ParameterParser.ParsePositiveLong(_state.DvdTotalSectors, L.T("总扇区数"));
             if (totalSectorsValue > uint.MaxValue)
-            {
                 throw new ArgumentOutOfRangeException(L.T("总扇区数"), L.T("总扇区数超出 DVD 引擎支持范围。"));
-            }
 
             double innerRadius = ParameterParser.ParsePositiveDouble(_state.DvdInnerRadius, L.T("内半径"));
             double outerRadius = ParameterParser.ParsePositiveDouble(_state.DvdOuterRadius, L.T("外半径"));
@@ -1451,18 +1470,19 @@ public partial class LivePreviewViewModel : ObservableObject
     /// <summary>
     /// Calibration variables of the DVD projection. Unlike the read-back path, the request
     /// carries both radii pairs: the solver lays the picture out at the generated radii and
-    /// projects it onto the measured ones. Channel bit (133.3 nm) and start angle (0°) stay
-    /// the physical constants of the scheme.
+    /// projects it onto the measured ones using the selected DVD format.
     /// </summary>
     private bool TryBuildDvdCalibrationOptions(
         out string imagePath,
         out CalibrationPreviewOptions options,
         out DvdHybridStreamingPlan? filePlan,
+        out (double Inner, double Outer)? layer1Ring,
         out string message)
     {
         imagePath = _state.DvdImagePath.Trim();
         options = null!;
         filePlan = null;
+        layer1Ring = null;
         if (imagePath.Length == 0)
         {
             message = L.T("请先在设计页导入图片，合成图会自动填入。");
@@ -1477,11 +1497,9 @@ public partial class LivePreviewViewModel : ObservableObject
 
         try
         {
-            long totalSectorsValue = ParameterParser.ParsePositiveLong(_state.DvdTotalSectors, L.T("总扇区数"));
-            if (totalSectorsValue > uint.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException(L.T("总扇区数"), L.T("总扇区数超出 DVD 引擎支持范围。"));
-            }
+            var (split, minusTotal) = _shell.Export.GetDvdLayerLayout();
+            var generated = ReadDvdPreviewGeometry(false, useExportLayout: true);
+            var actual = ReadDvdPreviewGeometry(true, useExportLayout: true);
 
             double generatedInner = ParameterParser.ParsePositiveDouble(_state.DvdInnerRadius, L.T("生成内半径"));
             double generatedOuter = ParameterParser.ParsePositiveDouble(_state.DvdOuterRadius, L.T("生成外半径"));
@@ -1503,29 +1521,42 @@ public partial class LivePreviewViewModel : ObservableObject
 
             ToneProfile tone = _state.DvdTone;
             uint drawingStart = 0;
-            uint drawingSectors = checked((uint)_state.GetUsableSectors(OpticalDiscFamily.Dvd));
+            uint drawingSectors = generated.OutputSectors;
             string dataDirectory = _state.DvdDataDirectory.Trim();
             if (dataDirectory.Length > 0)
             {
-                DvdStreamingOptions generated = ReadDvdPreviewGeometry(calibration: false);
-                filePlan = DvdStreamingGenerator.PrepareHybrid(dataDirectory, generated,
-                    _state.ResolveVolumeLabel(OpticalDiscFamily.Dvd),
-                    filesAtOuterRing: _state.DvdFilesAtOuterRing, filesInBothRings: _state.DvdFilesInBothRings);
-                drawingStart = filePlan.DrawingStartLba;
-                drawingSectors = filePlan.DrawingSectors;
+                string label = _state.ResolveVolumeLabel(OpticalDiscFamily.Dvd);
+                if (split is uint layerBreak)
+                {
+                    var layout = HybridIsoImageWriter.PlanDvdDoubleLayer(dataDirectory, layerBreak, label, minusTotal);
+                    uint block = DvdEccBlockEncoder.SectorCount;
+                    uint start = (layout.MetadataEndLbaExclusive + block - 1) / block * block;
+                    if (layerBreak < start + block)
+                        throw new ArgumentException("DVD DL Layer 0 leaves no complete ECC block for drawing.");
+                    drawingStart = start;
+                    drawingSectors = layerBreak - start;
+                    layer1Ring = FileRegionPreviewOverlay.DvdLayer1Ring(actual, layerBreak, layout);
+                }
+                else
+                {
+                    filePlan = DvdStreamingGenerator.PrepareHybrid(dataDirectory, generated, label,
+                        filesAtOuterRing: _state.DvdFilesAtOuterRing, filesInBothRings: _state.DvdFilesInBothRings);
+                    drawingStart = filePlan.DrawingStartLba;
+                    drawingSectors = filePlan.DrawingSectors;
+                }
             }
             options = new CalibrationPreviewOptions(
-                checked((uint)totalSectorsValue), drawingStart, drawingSectors,
+                generated.TotalSectors, drawingStart, drawingSectors,
                 generatedInner, generatedOuter, actualInner, actualOuter,
-                DvdStreamingOptions.StandardChannelBitLengthNm, true, 128, 1, outputSize, samplesPerSector,
+                generated.ChannelBitLengthNm, true, 128, 1, outputSize, samplesPerSector,
                 ParameterParser.ParseDouble(_state.DvdPitchLinear, L.T("相对一次项")),
                 ParameterParser.ParseDouble(_state.DvdPitchQuadratic, L.T("相对二次项")),
                 ParameterParser.ParseDouble(_state.DvdPitchCubic, L.T("相对三次项")),
                 ParameterParser.ParseDouble(_state.DvdActualPitchLinear, L.T("相对一次项")),
                 ParameterParser.ParseDouble(_state.DvdActualPitchQuadratic, L.T("相对二次项")),
                 ParameterParser.ParseDouble(_state.DvdActualPitchCubic, L.T("相对三次项")), tone,
-                SourceImageOuterRadiusMm: ReadDvdPreviewGeometry(false).OutputOuterRadiusMm,
-                PreviewOuterRadiusMm: ReadDvdPreviewGeometry(true).OutputOuterRadiusMm);
+                SourceImageOuterRadiusMm: generated.OutputOuterRadiusMm,
+                PreviewOuterRadiusMm: actual.OutputOuterRadiusMm);
             message = string.Empty;
             return true;
         }

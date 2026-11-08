@@ -476,6 +476,8 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
 
             currentOperation = "检查当前盘片兼容性";
             ValidateRequestedMedia(request.MediaKind, recorder, format);
+            if (request.MediaKind == OpticalBurnMediaKind.DvdData)
+                ValidateDvdLayerMedia(request, Convert.ToInt32(format.CurrentPhysicalMediaType));
             if (request.DvdLayerBreakLba.HasValue)
                 ValidateDvdLayerBurn(request, (object)recorder, (object)format);
             // Used DVD±RW can be erasable even when the data writer rejects its current state.
@@ -560,6 +562,7 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
             {
                 currentOperation = "准备 DVD 盘片";
                 int mediaType = Convert.ToInt32(format.CurrentPhysicalMediaType);
+                ValidateDvdLayerMedia(request, mediaType);
                 bool overwritesMedia = false;
                 if (request.DvdLayerBreakLba.HasValue)
                 {
@@ -1321,6 +1324,17 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
         void ReportOperationTiming(string result)
             => Diagnose(() => $"DVD 阶段：Operation={operation}；Result={result}；"
                 + $"ElapsedMs={(burnTimer.Elapsed - operationStarted).TotalMilliseconds:F0}。");
+    }
+
+    internal static void ValidateDvdLayerMedia(OpticalBurnRequest request, int physicalMediaType)
+    {
+        const long maxSingleLayerDvdSectors = 2_298_496;
+        if (!request.DvdLayerBreakLba.HasValue && request.ContentLength / 2048 <= maxSingleLayerDvdSectors)
+            return;
+        if (physicalMediaType is not (DvdPlusRDoubleLayer or DvdMinusRDoubleLayer))
+            throw new InvalidOperationException("双层 DVD 镜像只能写入双层 DVD 盘片。");
+        if (!request.DvdLayerBreakLba.HasValue)
+            throw new InvalidOperationException("双层 DVD 镜像缺少换层点，无法安全刻录。");
     }
 
     private static void ValidateDvdLayerBurn(OpticalBurnRequest request, object recorder, object formatObject)

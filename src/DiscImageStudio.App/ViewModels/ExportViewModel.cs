@@ -111,6 +111,7 @@ public partial class ExportViewModel : ObservableObject
     }
 
     [ObservableProperty] private string _dvdLayerBreak = DvdImageGenerator.MaxDvdPlusRLayer0Sectors.ToString(CultureInfo.InvariantCulture);
+    [ObservableProperty] private string _dvdLayerReadStatus = string.Empty;
 
     partial void OnExportDualLayerDvdChanged(bool value)
     {
@@ -122,6 +123,7 @@ public partial class ExportViewModel : ObservableObject
     {
         string previousValue = DvdLayerBreak;
         string previousFormat = DvdLayerFormat;
+        DvdLayerReadStatus = string.Empty;
         try
         {
             DvdLayerBoundary boundary = await _opticalDiscBurner.ReadDvdLayerBoundaryAsync();
@@ -134,11 +136,13 @@ public partial class ExportViewModel : ObservableObject
             DvdLayerBreak = boundary.Layer0Sectors.ToString(CultureInfo.InvariantCulture);
             string status = boundary.IsLocked ? L.T("已锁定") : L.T("可设置");
             string message = L.F($"从 {boundary.DeviceName} 读取换层点 {boundary.Layer0Sectors}（{status}）。");
+            DvdLayerReadStatus = message;
             _shell.AppendLog(message + Environment.NewLine);
             _shell.ShowToast(L.T("已读取换层点"), message, ToastKind.Success);
         }
         catch (Exception exception)
         {
+            DvdLayerReadStatus = L.Error(exception);
             _shell.AppendLog(JobDiagnostics.FormatLog(L.T("未能读取换层点"), exception));
             _shell.ShowToast(L.T("未能读取换层点"), L.Error(exception), ToastKind.Error);
         }

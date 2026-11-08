@@ -57,6 +57,12 @@ if (args is ["--test-capacity-ui"])
     return;
 }
 
+if (args is ["--test-file-placement-preview"])
+{
+    FilePlacementPreviewTests.Run();
+    return;
+}
+
 if (args is ["--test-usable-sectors"])
 {
     UsableSectorGenerationTests.Run();

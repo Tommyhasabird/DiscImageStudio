@@ -72,7 +72,7 @@ internal static class FilePlacementPreviewTests
             preview.ShowResultPreview(source);
             string invalid = Path.Combine(directory, "invalid.png");
             File.WriteAllText(invalid, "invalid image");
-            Invoke(preview, "PublishPreview", [invalid, source, "invalid preview", true]);
+            Invoke(preview, "PublishPreview", [invalid, source, "invalid preview", true, false]);
             Require(!preview.HasFileRegionOverlay, "failed image decoding cannot attach a file legend to the previous image");
         }
         finally
@@ -238,7 +238,7 @@ internal static class FilePlacementPreviewTests
             RunPreview(preview);
             RequirePreview(preview, true, $"DVD {(outer ? "outer" : "inner")} design projection");
             DvdHybridStreamingPlan plan = DvdStreamingGenerator.PrepareHybrid(files, disc, filesAtOuterRing: outer);
-            object?[] arguments = [null, null, null, null];
+            object?[] arguments = [null, null, null, null, null];
             Require((bool)Invoke(preview, "TryBuildDvdCalibrationOptions", arguments)!, "DVD projection options build");
             CalibrationPreviewOptions options = (CalibrationPreviewOptions)arguments[1]!;
             Require(options.StartLba == plan.DrawingStartLba
@@ -257,6 +257,18 @@ internal static class FilePlacementPreviewTests
             RequirePreview(preview, true, $"DVD {(outer ? "outer" : "inner")} finished-image readback");
             preview.IsCalibrationPreview = true;
         }
+
+        shell.Export.ExportDualLayerDvd = true;
+        shell.Export.DvdLayerFormat = "DVD-R DL";
+        object?[] dualLayer = [null, null, null, null, null];
+        bool built = (bool)Invoke(preview, "TryBuildDvdCalibrationOptions", dualLayer)!;
+        Require(built, $"DVD DL projection options build: {dualLayer[4]}");
+        var dualOptions = (CalibrationPreviewOptions)dualLayer[1]!;
+        Require(dualOptions.StartLba + dualOptions.FillSectors == 2_092_896
+            && dualOptions.ChannelBitLengthNm == 147.0
+            && dualLayer[2] is null && dualLayer[3] is ValueTuple<double, double>,
+            "DVD DL keeps the drawing in L0 and supplies a separate L1 occupancy ring");
+        shell.Export.ExportDualLayerDvd = false;
 
         state.DvdDataDirectory = string.Empty;
         RunPreview(preview);

@@ -178,6 +178,14 @@ internal static class UsableSectorGenerationTests
             artwork: DiscImageStudio.Core.Calibration.CalibrationArtwork.ReferenceCross);
         var request = DiscImageStudio.ViewModels.BurnViewModel.CreateCalibrationBurnRequest(minusTarget, false, "test", null);
         request.Validate();
+        DiscImageStudio.Burning.WindowsImapiBurner.ValidateDvdLayerMedia(request, 0x0B);
+        foreach (int singleLayerType in new[] { 0x06, 0x07, 0x09, 0x0A })
+        {
+            bool singleLayerRejected = false;
+            try { DiscImageStudio.Burning.WindowsImapiBurner.ValidateDvdLayerMedia(request, singleLayerType); }
+            catch (InvalidOperationException) { singleLayerRejected = true; }
+            Require(singleLayerRejected, "dual-layer image rejects single-layer write-once and rewritable media");
+        }
         DiscImageStudio.Burning.WindowsImapiBurner.ValidateDvdLayerBurnLayout(request, new("test", 128, true, 240));
         bool mismatchRejected = false;
         try { DiscImageStudio.Burning.WindowsImapiBurner.ValidateDvdLayerBurnLayout(request, new("test", 144, true, 240)); }

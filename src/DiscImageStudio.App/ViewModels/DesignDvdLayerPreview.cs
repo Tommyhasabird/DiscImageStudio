@@ -2,6 +2,7 @@ using System.IO;
 using System.Windows.Threading;
 using DiscImageStudio.Core;
 using DiscImageStudio.Dvd;
+using DiscImageStudio.Services;
 using DvdImageSolver;
 
 namespace DiscImageStudio.ViewModels;
@@ -75,12 +76,7 @@ public partial class DesignViewModel
 
                 var layout = HybridIsoImageWriter.PlanDvdDoubleLayer(directory, split, "DISC_IMAGE", minusTotal);
                 uint occupied = layout.DataEndLbaExclusive - layout.FileDataStartLba;
-                double trackLength = layer1Sectors * 38688.0 * options.ChannelBitLengthNm * 1e-6;
-                var geometry = DvdTrackGeometry.Create(options.InnerRadiusMm, options.OutputOuterRadiusMm,
-                    trackLength, options.PitchLinear, options.PitchQuadratic, options.PitchCubic);
-                // OTP reads Layer 1 from the outside in, so the final sectors lie at the inner edge.
-                double outer = geometry.RadiusAtArcLength(trackLength * occupied / layer1Sectors);
-                return (occupied, ((double Inner, double Outer)?)(options.InnerRadiusMm, outer));
+                return (occupied, ((double Inner, double Outer)?)FileRegionPreviewOverlay.DvdLayer1Ring(options, split, layout));
             });
             if (revision == _dvdLayerOccupancyRevision)
                 SetDvdLayerOccupancy(FormattableString.CurrentCulture(

@@ -242,10 +242,21 @@
                         </controls:EmptyStateCard.Style>
                     </controls:EmptyStateCard>
                     <controls:VisibilityGate Grid.Row="1" IsOpen="{Binding HasFileRegionOverlay}">
-                        <StackPanel Orientation="Horizontal" Margin="18,0,18,14">
-                            <Rectangle Width="12" Height="12" Fill="#3385FF" RadiusX="2" RadiusY="2" Margin="0,0,8,0" />
-                            <TextBlock Foreground="{DynamicResource TextSecondaryBrush}"
-                                       Text="{loc:Text Xaml.FileAreaIncludingFilesystem}" />
+                        <StackPanel Margin="18,0,18,14">
+                            <controls:VisibilityGate IsOpen="{Binding HasDvdLayer1Overlay}" Inverted="True">
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Width="12" Height="12" Fill="#3385FF" RadiusX="2" RadiusY="2" Margin="0,0,8,0" />
+                                    <TextBlock Foreground="{DynamicResource TextSecondaryBrush}"
+                                               Text="{loc:Text Xaml.FileAreaIncludingFilesystem}" />
+                                </StackPanel>
+                            </controls:VisibilityGate>
+                            <controls:VisibilityGate IsOpen="{Binding HasDvdLayer1Overlay}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Width="12" Height="12" Fill="#3385FF" RadiusX="2" RadiusY="2" Margin="0,0,8,0" />
+                                    <TextBlock Foreground="{DynamicResource TextSecondaryBrush}"
+                                               Text="{loc:Text Xaml.DvdLayerOccupancy}" />
+                                </StackPanel>
+                            </controls:VisibilityGate>
                         </StackPanel>
                     </controls:VisibilityGate>
                 </Grid>

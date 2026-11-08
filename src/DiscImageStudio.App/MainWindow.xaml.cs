@@ -790,6 +790,8 @@ public partial class MainWindow : Window
             viewModel.Name = project.Name;
             if (project.Family == OpticalDiscFamily.Dvd)
             {
+                if (_shell.Export.ExportDualLayerDvd)
+                    viewModel.DvdLayerSettings = _shell.Export;
                 viewModel.InnerRadiusText = _shell.State.DvdInnerRadius;
                 viewModel.OuterRadiusText = _shell.State.DvdOuterRadius;
                 viewModel.SectorsText = _shell.State.DvdTotalSectors;

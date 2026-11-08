@@ -1,71 +1,156 @@
 {
   "DVD-R DL 请使用默认换层点或重新从盘片读取。": {
     "zh-CN": "DVD-R DL 请使用默认换层点或重新从盘片读取。",
-    "en": "Use the default DVD-R DL layer break or read it from the disc again."
+    "en": "Use the default DVD-R DL layer break or read it from the disc again.",
+    "ja": "DVD-R DL の既定のレイヤーブレークを使うか、ディスクから再読み取りしてください。",
+    "tr": "Varsayılan DVD-R DL katman geçiş noktasını kullanın veya diskten yeniden okuyun.",
+    "es": "Usa el cambio de capa predeterminado de DVD-R DL o vuelve a leerlo del disco.",
+    "cs": "Použijte výchozí bod přechodu DVD-R DL nebo ho znovu načtěte z disku.",
+    "zh-TW": "DVD-R DL 請使用預設換層點或重新從光碟讀取。"
   },
   "DVD-R DL 需要使用光驱读到的换层点。": {
     "zh-CN": "DVD-R DL 需要使用光驱读到的换层点。",
-    "en": "DVD-R DL requires the layer break reported by the drive."
+    "en": "DVD-R DL requires the layer break reported by the drive.",
+    "ja": "DVD-R DL にはドライブが報告したレイヤーブレークが必要です。",
+    "tr": "DVD-R DL, sürücünün bildirdiği katman geçiş noktasını gerektirir.",
+    "es": "DVD-R DL requiere el punto de cambio de capa indicado por la unidad.",
+    "cs": "DVD-R DL vyžaduje bod přechodu zjištěný mechanikou.",
+    "zh-TW": "DVD-R DL 需要使用光碟機讀取的換層點。"
   },
   "DVD-R DL ISO 的换层点为 {0}。请用 DVD-R DL 顺序模式刻录。": {
     "zh-CN": "DVD-R DL ISO 的换层点为 {0}。请用 DVD-R DL 顺序模式刻录。",
-    "en": "The DVD-R DL ISO uses layer break {0}. Burn in DVD-R DL sequential mode."
+    "en": "The DVD-R DL ISO uses layer break {0}. Burn in DVD-R DL sequential mode.",
+    "ja": "DVD-R DL ISO のレイヤーブレークは {0} です。シーケンシャルモードで書き込んでください。",
+    "tr": "DVD-R DL ISO katman geçiş noktası {0}. DVD-R DL sıralı modunda yazın.",
+    "es": "El cambio de capa de la ISO DVD-R DL es {0}. Graba en modo secuencial DVD-R DL.",
+    "cs": "Bod přechodu ISO pro DVD-R DL je {0}. Zapisujte v sekvenčním režimu DVD-R DL.",
+    "zh-TW": "DVD-R DL ISO 的換層點為 {0}。請以 DVD-R DL 循序模式燒錄。"
   },
   "未找到装有 DVD±R DL 盘片的光驱。": {
     "zh-CN": "未找到装有 DVD±R DL 盘片的光驱。",
-    "en": "No drive with a dual-layer DVD±R disc was found."
+    "en": "No drive with a dual-layer DVD±R disc was found.",
+    "ja": "DVD±R DL が入ったドライブが見つかりません。",
+    "tr": "DVD±R DL disk takılı bir sürücü bulunamadı.",
+    "es": "No se encontró ninguna unidad con un disco DVD±R DL.",
+    "cs": "Nebyla nalezena mechanika s diskem DVD±R DL.",
+    "zh-TW": "找不到裝有 DVD±R DL 光碟的光碟機。"
   },
   "DVD-R DL 标定需要顺序刻录模式，当前光驱报告跳层刻录模式。": {
     "zh-CN": "DVD-R DL 标定需要顺序刻录模式，当前光驱报告跳层刻录模式。",
-    "en": "DVD-R DL calibration requires sequential recording. The drive reports layer-jump recording mode."
+    "en": "DVD-R DL calibration requires sequential recording. The drive reports layer-jump recording mode.",
+    "ja": "DVD-R DL のキャリブレーションにはシーケンシャル記録が必要です。ドライブはレイヤージャンプ記録を報告しました。",
+    "tr": "DVD-R DL kalibrasyonu sıralı yazma gerektirir. Sürücü katman atlamalı yazma bildiriyor.",
+    "es": "La calibración de DVD-R DL requiere grabación secuencial. La unidad indica grabación con salto de capa.",
+    "cs": "Kalibrace DVD-R DL vyžaduje sekvenční zápis. Mechanika hlásí zápis s přeskakováním vrstev.",
+    "zh-TW": "DVD-R DL 校準需要循序燒錄模式，目前光碟機回報跳層燒錄模式。"
   },
   "检测到 DVD-R DL（0x0B）。当前双层标定仅支持 DVD+R DL，请换用 DVD+R DL 盘片。": {
     "zh-CN": "检测到 DVD-R DL（0x0B）。当前双层标定仅支持 DVD+R DL，请换用 DVD+R DL 盘片。",
-    "en": "Detected DVD-R DL (0x0B). Dual-layer calibration currently supports DVD+R DL discs."
+    "en": "Detected DVD-R DL (0x0B). Dual-layer calibration currently supports DVD+R DL discs.",
+    "ja": "DVD-R DL (0x0B) を検出しました。このキャリブレーションでは DVD+R DL を使用してください。",
+    "tr": "DVD-R DL (0x0B) algılandı. Bu kalibrasyon için DVD+R DL disk kullanın.",
+    "es": "Se detectó DVD-R DL (0x0B). Usa un DVD+R DL para esta calibración.",
+    "cs": "Byl zjištěn DVD-R DL (0x0B). Pro tuto kalibraci použijte DVD+R DL.",
+    "zh-TW": "偵測到 DVD-R DL（0x0B）。此校準請使用 DVD+R DL 光碟。"
   },
   "检测到 DVD+R DL（0x08）。请选择 DVD 并启用 DVD+R DL 标定，再从盘片读取换层点。": {
     "zh-CN": "检测到 DVD+R DL（0x08）。请选择 DVD 并启用 DVD+R DL 标定，再从盘片读取换层点。",
-    "en": "Detected DVD+R DL (0x08). Select DVD and enable DVD+R DL calibration, then read the layer break from the disc."
+    "en": "Detected DVD+R DL (0x08). Select DVD and enable DVD+R DL calibration, then read the layer break from the disc.",
+    "ja": "DVD+R DL (0x08) を検出しました。DVD を選び、2 層キャリブレーションを有効にしてからレイヤーブレークを読み取ってください。",
+    "tr": "DVD+R DL (0x08) algılandı. DVD'yi seçip çift katmanlı kalibrasyonu açın, ardından geçiş noktasını diskten okuyun.",
+    "es": "Se detectó DVD+R DL (0x08). Selecciona DVD, activa la calibración de doble capa y lee el cambio de capa del disco.",
+    "cs": "Byl zjištěn DVD+R DL (0x08). Vyberte DVD, zapněte dvouvrstvou kalibraci a načtěte bod přechodu z disku.",
+    "zh-TW": "偵測到 DVD+R DL（0x08）。請選擇 DVD 並啟用雙層校準，再從光碟讀取換層點。"
   },
   "换层点（L0 扇区数）": {
     "zh-CN": "换层点（L0 扇区数）",
-    "en": "Layer break (Layer 0 sector count)"
+    "en": "Layer break (Layer 0 sector count)",
+    "ja": "レイヤーブレーク（L0 のセクター数）",
+    "tr": "Katman geçiş noktası (L0 sektör sayısı)",
+    "es": "Cambio de capa (sectores de L0)",
+    "cs": "Bod přechodu mezi vrstvami (počet sektorů L0)",
+    "zh-TW": "換層點（L0 磁區數）"
   },
   "已锁定": {
     "zh-CN": "已锁定",
-    "en": "locked"
+    "en": "locked",
+    "ja": "固定済み",
+    "tr": "kilitli",
+    "es": "bloqueado",
+    "cs": "uzamčený",
+    "zh-TW": "已鎖定"
   },
   "可设置": {
     "zh-CN": "可设置",
-    "en": "configurable"
+    "en": "configurable",
+    "ja": "設定可能",
+    "tr": "ayarlanabilir",
+    "es": "configurable",
+    "cs": "nastavitelný",
+    "zh-TW": "可設定"
   },
   "已读取换层点": {
     "zh-CN": "已读取换层点",
-    "en": "Layer break read"
+    "en": "Layer break read",
+    "ja": "レイヤーブレークを読み取りました",
+    "tr": "Katman geçiş noktası okundu",
+    "es": "Se leyó el cambio de capa",
+    "cs": "Bod přechodu byl načten",
+    "zh-TW": "已讀取換層點"
   },
   "未能读取换层点": {
     "zh-CN": "未能读取换层点",
-    "en": "Could not read the layer break"
+    "en": "Could not read the layer break",
+    "ja": "レイヤーブレークを読み取れませんでした",
+    "tr": "Katman geçiş noktası okunamadı",
+    "es": "No se pudo leer el cambio de capa",
+    "cs": "Bod přechodu se nepodařilo načíst",
+    "zh-TW": "無法讀取換層點"
   },
   "未找到装有 DVD+R DL 盘片的光驱。": {
     "zh-CN": "未找到装有 DVD+R DL 盘片的光驱。",
-    "en": "No drive with a DVD+R DL disc was found."
+    "en": "No drive with a DVD+R DL disc was found.",
+    "ja": "DVD+R DL が入ったドライブが見つかりません。",
+    "tr": "DVD+R DL disk takılı bir sürücü bulunamadı.",
+    "es": "No se encontró ninguna unidad con un disco DVD+R DL.",
+    "cs": "Nebyla nalezena mechanika s diskem DVD+R DL.",
+    "zh-TW": "找不到裝有 DVD+R DL 光碟的光碟機。"
   },
   "光驱返回的 DVD+R DL 换层点无效。": {
     "zh-CN": "光驱返回的 DVD+R DL 换层点无效。",
-    "en": "The drive reported an invalid DVD+R DL layer break."
+    "en": "The drive reported an invalid DVD+R DL layer break.",
+    "ja": "ドライブが報告した DVD+R DL のレイヤーブレークが無効です。",
+    "tr": "Sürücünün bildirdiği DVD+R DL katman geçiş noktası geçersiz.",
+    "es": "La unidad indicó un cambio de capa DVD+R DL no válido.",
+    "cs": "Mechanika ohlásila neplatný bod přechodu DVD+R DL.",
+    "zh-TW": "光碟機回報的 DVD+R DL 換層點無效。"
   },
   "光驱返回的 DVD+R DL 换层信息不完整。": {
     "zh-CN": "光驱返回的 DVD+R DL 换层信息不完整。",
-    "en": "The drive returned incomplete DVD+R DL layer information."
+    "en": "The drive returned incomplete DVD+R DL layer information.",
+    "ja": "ドライブが報告した DVD+R DL のレイヤー情報が不完全です。",
+    "tr": "Sürücünün bildirdiği DVD+R DL katman bilgileri eksik.",
+    "es": "La unidad devolvió información incompleta sobre las capas de DVD+R DL.",
+    "cs": "Mechanika vrátila neúplné údaje o vrstvách DVD+R DL.",
+    "zh-TW": "光碟機回報的 DVD+R DL 換層資訊不完整。"
   },
   "从 {0} 读取换层点 {1}（{2}）。": {
     "zh-CN": "从 {0} 读取换层点 {1}（{2}）。",
-    "en": "Read layer break {1} from {0} ({2})."
+    "en": "Read layer break {1} from {0} ({2}).",
+    "ja": "{0} からレイヤーブレーク {1} を読み取りました（{2}）。",
+    "tr": "{0} sürücüsünden katman geçiş noktası {1} okundu ({2}).",
+    "es": "Se leyó el cambio de capa {1} en {0} ({2}).",
+    "cs": "Z mechaniky {0} byl načten bod přechodu {1} ({2}).",
+    "zh-TW": "從 {0} 讀取換層點 {1}（{2}）。"
   },
   "DVD+R DL ISO 的换层点为 {0}。请在刻录工具中设置相同的值。": {
     "zh-CN": "DVD+R DL ISO 的换层点为 {0}。请在刻录工具中设置相同的值。",
-    "en": "The DVD+R DL ISO uses layer break {0}. Set the same value in the burning tool."
+    "en": "The DVD+R DL ISO uses layer break {0}. Set the same value in the burning tool.",
+    "ja": "DVD+R DL ISO のレイヤーブレークは {0} です。書き込みツールで同じ値を指定してください。",
+    "tr": "DVD+R DL ISO katman geçiş noktası {0}. Yazma aracında aynı değeri ayarlayın.",
+    "es": "El cambio de capa de la ISO DVD+R DL es {0}. Configura el mismo valor en la herramienta de grabación.",
+    "cs": "Bod přechodu ISO pro DVD+R DL je {0}. Nastavte stejnou hodnotu v nástroji pro zápis.",
+    "zh-TW": "DVD+R DL ISO 的換層點為 {0}。請在燒錄工具中設定相同的值。"
   },
   "内外圈": {
     "zh-CN": "内外圈",
@@ -709,27 +794,47 @@
   "擦除已有数据前会另行确认。开始后取消或断电可能使盘片报废。是否继续？": {
     "zh-CN": "擦除已有数据前会另行确认。开始后取消或断电可能使盘片报废。是否继续？",
     "en": "You will be asked again before existing data is erased. Canceling or losing power after recording starts may render the disc unusable. Continue?",
-    "zh-TW": "抹除現有資料前會另行確認。開始後取消或斷電可能使光碟報廢。是否繼續？"
+    "zh-TW": "抹除現有資料前會另行確認。開始後取消或斷電可能使光碟報廢。是否繼續？",
+    "ja": "既存データを消去する前に確認します。書き込み開始後の中止や停電でディスクが使えなくなることがあります。続行しますか？",
+    "tr": "Mevcut veriler silinmeden önce yeniden onay istenir. Yazma başladıktan sonra iptal veya güç kesintisi diski kullanılmaz hâle getirebilir. Devam edilsin mi?",
+    "es": "Se pedirá confirmación antes de borrar los datos. Cancelar o perder la alimentación durante la grabación puede inutilizar el disco. ¿Continuar?",
+    "cs": "Před smazáním dat se zobrazí další potvrzení. Zrušení nebo výpadek napájení po zahájení zápisu může disk znehodnotit. Pokračovat?"
   },
   "确认清除盘片数据": {
     "zh-CN": "确认清除盘片数据",
     "en": "Confirm loss of disc data",
-    "zh-TW": "確認清除光碟資料"
+    "zh-TW": "確認清除光碟資料",
+    "ja": "ディスクデータの消去を確認",
+    "tr": "Disk verilerinin silinmesini onayla",
+    "es": "Confirmar el borrado de datos del disco",
+    "cs": "Potvrdit smazání dat na disku"
   },
   "光驱：{0}\n盘片：{1}\n\n": {
     "zh-CN": "光驱：{0}\n盘片：{1}\n\n",
     "en": "Drive: {0}\nDisc: {1}\n\n",
-    "zh-TW": "光碟機：{0}\n光碟：{1}\n\n"
+    "zh-TW": "光碟機：{0}\n光碟：{1}\n\n",
+    "ja": "ドライブ：{0}\nディスク：{1}\n\n",
+    "tr": "Sürücü: {0}\nDisk: {1}\n\n",
+    "es": "Unidad: {0}\nDisco: {1}\n\n",
+    "cs": "Mechanika: {0}\nDisk: {1}\n\n"
   },
   "继续刻录将先擦除盘片，原有数据将丢失。是否继续？": {
     "zh-CN": "继续刻录将先擦除盘片，原有数据将丢失。是否继续？",
     "en": "The disc will be erased before recording. Existing data will be lost. Continue?",
-    "zh-TW": "繼續燒錄將先抹除光碟，原有資料將遺失。是否繼續？"
+    "zh-TW": "繼續燒錄將先抹除光碟，原有資料將遺失。是否繼續？",
+    "ja": "書き込む前にディスクを消去します。既存のデータは失われます。続行しますか？",
+    "tr": "Yazmadan önce disk silinecek ve mevcut veriler kaybolacak. Devam edilsin mi?",
+    "es": "El disco se borrará antes de grabar y se perderán los datos existentes. ¿Continuar?",
+    "cs": "Před zápisem bude disk smazán a stávající data budou ztracena. Pokračovat?"
   },
   "擦除并刻录": {
     "zh-CN": "擦除并刻录",
     "en": "Erase and record",
-    "zh-TW": "抹除並燒錄"
+    "zh-TW": "抹除並燒錄",
+    "ja": "消去して書き込む",
+    "tr": "Sil ve yaz",
+    "es": "Borrar y grabar",
+    "cs": "Smazat a zapsat"
   },
   "仅允许空白盘。开始后取消或断电可能使盘片报废。是否继续？": {
     "zh-CN": "仅允许空白盘。开始后取消或断电可能使盘片报废。是否继续？",
@@ -1238,7 +1343,11 @@
   "当前盘片未提供可选速度，将自动选择。若需擦除盘片，擦除后会重新读取速度。": {
     "zh-CN": "当前盘片未提供可选速度，将自动选择。若需擦除盘片，擦除后会重新读取速度。",
     "en": "Selectable speeds are unavailable. Speed will be selected automatically. If the disc needs erasing, speeds will be queried again afterward.",
-    "zh-TW": "目前光碟片未提供可選速度，將自動選擇。若需抹除光碟片，抹除後會重新讀取速度。"
+    "zh-TW": "目前光碟片未提供可選速度，將自動選擇。若需抹除光碟片，抹除後會重新讀取速度。",
+    "ja": "選択可能な速度がないため自動で選びます。消去が必要な場合は、消去後に速度を再取得します。",
+    "tr": "Seçilebilir hız bulunamadı. Hız otomatik seçilecek. Disk silinirse hızlar yeniden sorgulanacak.",
+    "es": "No hay velocidades seleccionables. Se elegirá una automáticamente y, si se borra el disco, se volverán a consultar.",
+    "cs": "Rychlost bude vybrána automaticky. Pokud se disk smaže, dostupné rychlosti se znovu načtou."
   },
   "当前盘片未报告可选速度，将使用刻录接口的保守回退设置。": {
     "zh-CN": "当前盘片未报告可选速度，将使用刻录接口的保守回退设置。",
@@ -2265,5 +2374,212 @@
     "tr": "; dosyalar dış halkada, desen iç tarafta",
     "es": "; archivos en la zona exterior, dibujo por dentro",
     "cs": "; soubory na vnějším prstenci, kresba blíž ke středu"
+  },
+  "普通双层 DVD 项目请先导出 ISO，再使用支持换层点的工具和空白双层 DVD 刻录。": {
+    "zh-CN": "普通双层 DVD 项目请先导出 ISO，再使用支持换层点的工具和空白双层 DVD 刻录。",
+    "zh-TW": "一般雙層 DVD 專案請先匯出 ISO，再使用支援換層點的工具和空白雙層 DVD 燒錄。",
+    "en": "Export an ISO for this dual-layer DVD project, then burn it to a blank dual-layer DVD using a tool that supports setting the layer break.",
+    "ja": "ISO をエクスポートし、レイヤーブレークを指定できるツールで空の 2 層 DVD に書き込んでください。",
+    "tr": "ISO dosyasını dışa aktarın ve katman geçiş noktası ayarlanabilen bir araçla boş bir çift katmanlı DVD'ye yazın.",
+    "es": "Exporta una ISO y grábala en un DVD de doble capa vacío con una herramienta que permita configurar el cambio de capa.",
+    "cs": "Exportujte ISO a zapište je na prázdné dvouvrstvé DVD nástrojem s podporou nastavení bodu přechodu."
+  },
+  "双层 DVD 镜像只能写入双层 DVD 盘片。": {
+    "zh-CN": "双层 DVD 镜像只能写入双层 DVD 盘片。",
+    "zh-TW": "雙層 DVD 映像只能寫入雙層 DVD 光碟。",
+    "en": "A dual-layer DVD image requires a dual-layer DVD.",
+    "ja": "2 層 DVD イメージには 2 層 DVD が必要です。",
+    "tr": "Çift katmanlı DVD kalıbı, çift katmanlı DVD gerektirir.",
+    "es": "Una imagen DVD de doble capa requiere un DVD de doble capa.",
+    "cs": "Obraz dvouvrstvého DVD vyžaduje dvouvrstvý disk DVD."
+  },
+  "双层 DVD 镜像缺少换层点，无法安全刻录。": {
+    "zh-CN": "双层 DVD 镜像缺少换层点，无法安全刻录。",
+    "zh-TW": "雙層 DVD 映像缺少換層點，無法安全燒錄。",
+    "en": "The dual-layer DVD image is missing its layer break and cannot be burned safely.",
+    "ja": "2 層 DVD イメージにレイヤーブレークがないため、安全に書き込めません。",
+    "tr": "Çift katmanlı DVD kalıbında katman geçiş noktası eksik. Güvenli yazma yapılamıyor.",
+    "es": "La imagen de doble capa no indica el cambio de capa y no se puede grabar de forma segura.",
+    "cs": "Obraz dvouvrstvého DVD nemá určený bod přechodu a nelze jej bezpečně zapsat."
+  },
+  "请放入与标靶格式一致的空白双层 DVD。": {
+    "zh-CN": "请放入与标靶格式一致的空白双层 DVD。",
+    "zh-TW": "請放入與標靶格式相符的空白雙層 DVD。",
+    "en": "Insert a blank dual-layer DVD that matches the target format.",
+    "ja": "標的の形式に合った空の 2 層 DVD を入れてください。",
+    "tr": "Hedef biçimiyle eşleşen boş bir çift katmanlı DVD takın.",
+    "es": "Inserta un DVD de doble capa vacío que coincida con el formato del patrón.",
+    "cs": "Vložte prázdné dvouvrstvé DVD odpovídající formátu terče."
+  },
+  "光驱未报告与标靶匹配的双层 DVD 顺序写入模式。": {
+    "zh-CN": "光驱未报告与标靶匹配的双层 DVD 顺序写入模式。",
+    "zh-TW": "光碟機未回報與標靶相符的雙層 DVD 循序寫入模式。",
+    "en": "The drive did not report a sequential dual-layer DVD recording mode that matches the target.",
+    "ja": "ドライブが標的に合った 2 層 DVD のシーケンシャル記録モードを報告しませんでした。",
+    "tr": "Sürücü hedefle eşleşen bir çift katmanlı DVD sıralı yazma modu bildirmedi.",
+    "es": "La unidad no indicó un modo de grabación secuencial de doble capa compatible con el patrón.",
+    "cs": "Mechanika neohlásila režim sekvenčního zápisu na dvouvrstvé DVD odpovídající terči."
+  },
+  "DVD+R DL 换层点尚未锁定。请生成 ISO 并使用可指定换层点的刻录工具。": {
+    "zh-CN": "DVD+R DL 换层点尚未锁定。请生成 ISO 并使用可指定换层点的刻录工具。",
+    "zh-TW": "DVD+R DL 換層點尚未鎖定。請產生 ISO 並使用可指定換層點的燒錄工具。",
+    "en": "The DVD+R DL layer break is not locked. Export an ISO and use a burning tool that can set the layer break.",
+    "ja": "DVD+R DL のレイヤーブレークは未固定です。ISO をエクスポートし、レイヤーブレークを指定できるツールを使ってください。",
+    "tr": "DVD+R DL katman geçiş noktası kilitli değil. ISO oluşturun ve geçiş noktasını ayarlayabilen bir araç kullanın.",
+    "es": "El cambio de capa del DVD+R DL no está bloqueado. Exporta una ISO y usa una herramienta que permita configurarlo.",
+    "cs": "Bod přechodu DVD+R DL není uzamčený. Exportujte ISO a použijte nástroj umožňující jeho nastavení."
+  },
+  "盘片的换层点或容量与标靶不一致，请读取盘片并重新生成标靶。": {
+    "zh-CN": "盘片的换层点或容量与标靶不一致，请读取盘片并重新生成标靶。",
+    "zh-TW": "光碟的換層點或容量與標靶不符，請讀取光碟並重新產生標靶。",
+    "en": "The disc layer break or capacity differs from the target. Read the disc and regenerate the target.",
+    "ja": "ディスクのレイヤーブレークまたは容量が標的と異なります。ディスクを読み取り、標的を作り直してください。",
+    "tr": "Diskin katman geçiş noktası veya kapasitesi hedefle eşleşmiyor. Diski okuyup hedefi yeniden oluşturun.",
+    "es": "El cambio de capa o la capacidad del disco difiere del patrón. Lee el disco y vuelve a generar el patrón.",
+    "cs": "Bod přechodu nebo kapacita disku neodpovídá terči. Načtěte disk a znovu vytvořte terč."
+  },
+  "DVD DL Layer 0 leaves no complete ECC block for drawing.": {
+    "zh-CN": "双层 DVD 的 L0 未留下完整的 ECC 块供绘图。",
+    "zh-TW": "雙層 DVD 的 L0 未留下完整的 ECC 區塊供繪圖。",
+    "en": "DVD DL Layer 0 leaves no complete ECC block for drawing.",
+    "ja": "2 層 DVD の L0 に描画用の完全な ECC ブロックがありません。",
+    "tr": "Çift katmanlı DVD'nin L0 katmanında desen için tam bir ECC bloğu kalmadı.",
+    "es": "La capa L0 del DVD de doble capa no deja ningún bloque ECC completo para el diseño.",
+    "cs": "Na vrstvě L0 dvouvrstvého DVD nezbývá celý blok ECC pro obraz."
+  },
+  "DVD DL requires at least one nonempty data file.": {
+    "zh-CN": "双层 DVD 至少需要一个非空数据文件。",
+    "zh-TW": "雙層 DVD 至少需要一個非空白的資料檔案。",
+    "en": "DVD DL requires at least one nonempty data file.",
+    "ja": "2 層 DVD には空でないデータファイルが少なくとも 1 つ必要です。",
+    "tr": "Çift katmanlı DVD en az bir boş olmayan veri dosyası gerektirir.",
+    "es": "Un DVD de doble capa requiere al menos un archivo de datos no vacío.",
+    "cs": "Dvouvrstvé DVD vyžaduje alespoň jeden neprázdný datový soubor."
+  },
+  "DVD DL files exceed the Layer 1 capacity.": {
+    "zh-CN": "文件超出双层 DVD 的 L1 容量。",
+    "zh-TW": "檔案超過雙層 DVD 的 L1 容量。",
+    "en": "DVD DL files exceed the Layer 1 capacity.",
+    "ja": "ファイルが 2 層 DVD の L1 容量を超えています。",
+    "tr": "Dosyalar çift katmanlı DVD'nin L1 kapasitesini aşıyor.",
+    "es": "Los archivos superan la capacidad de la capa L1 del DVD de doble capa.",
+    "cs": "Soubory překračují kapacitu vrstvy L1 dvouvrstvého DVD."
+  },
+  "Inner and outer ring placement requires at least two nonempty files.": {
+    "zh-CN": "内外圈布局至少需要两个非空文件。",
+    "zh-TW": "內外圈配置至少需要兩個非空白檔案。",
+    "en": "Inner and outer ring placement requires at least two nonempty files.",
+    "ja": "内周と外周への配置には空でないファイルが 2 つ以上必要です。",
+    "tr": "İç ve dış halkaya yerleştirmek için en az iki boş olmayan dosya gerekir.",
+    "es": "La distribución en ambos anillos requiere al menos dos archivos no vacíos.",
+    "cs": "Umístění do obou prstenců vyžaduje alespoň dva neprázdné soubory."
+  },
+  "检测到双层 DVD，请读取换层点。": {
+    "zh-CN": "检测到双层 DVD，请读取换层点。",
+    "zh-TW": "偵測到雙層 DVD，請讀取換層點。",
+    "en": "Dual-layer DVD detected. Read the layer break.",
+    "ja": "2 層 DVD を検出しました。レイヤーブレークを読み取ってください。",
+    "tr": "Çift katmanlı DVD algılandı. Katman geçiş noktasını okuyun.",
+    "es": "Se detectó un DVD de doble capa. Lee el cambio de capa.",
+    "cs": "Bylo zjištěno dvouvrstvé DVD. Načtěte bod přechodu."
+  },
+  "双层 DVD 刻录请求的换层点或容量无效。": {
+    "zh-CN": "双层 DVD 刻录请求的换层点或容量无效。",
+    "zh-TW": "雙層 DVD 燒錄要求的換層點或容量無效。",
+    "en": "The dual-layer DVD burn request has an invalid layer break or capacity.",
+    "ja": "2 層 DVD 書き込み要求のレイヤーブレークまたは容量が無効です。",
+    "tr": "Çift katmanlı DVD yazma isteğinde geçiş noktası veya kapasite geçersiz.",
+    "es": "El cambio de capa o la capacidad de la grabación de doble capa no es válido.",
+    "cs": "Požadavek na zápis dvouvrstvého DVD má neplatný bod přechodu nebo kapacitu."
+  },
+  "DVD-R DL 刻录需要明确的换层点。": {
+    "zh-CN": "DVD-R DL 刻录需要明确的换层点。",
+    "zh-TW": "DVD-R DL 燒錄需要明確的換層點。",
+    "en": "DVD-R DL recording requires an explicit layer break.",
+    "ja": "DVD-R DL の書き込みにはレイヤーブレークの指定が必要です。",
+    "tr": "DVD-R DL yazmak için katman geçiş noktası belirtilmelidir.",
+    "es": "La grabación DVD-R DL requiere un cambio de capa explícito.",
+    "cs": "Zápis DVD-R DL vyžaduje výslovně zadaný bod přechodu."
+  },
+  "光驱返回的 DVD-R DL 物理格式信息不完整或无效。": {
+    "zh-CN": "光驱返回的 DVD-R DL 物理格式信息不完整或无效。",
+    "zh-TW": "光碟機回報的 DVD-R DL 實體格式資訊不完整或無效。",
+    "en": "The drive returned incomplete or invalid DVD-R DL physical format information.",
+    "ja": "ドライブが返した DVD-R DL の物理フォーマット情報が不完全または無効です。",
+    "tr": "Sürücünün bildirdiği DVD-R DL fiziksel biçim bilgisi eksik veya geçersiz.",
+    "es": "La unidad devolvió información de formato físico de DVD-R DL incompleta o no válida.",
+    "cs": "Mechanika vrátila neúplné nebo neplatné údaje o fyzickém formátu DVD-R DL."
+  },
+  "光驱返回的 DVD-R DL 扇区范围无效。": {
+    "zh-CN": "光驱返回的 DVD-R DL 扇区范围无效。",
+    "zh-TW": "光碟機回報的 DVD-R DL 磁區範圍無效。",
+    "en": "The drive reported an invalid DVD-R DL sector range.",
+    "ja": "ドライブが報告した DVD-R DL のセクター範囲が無効です。",
+    "tr": "Sürücünün bildirdiği DVD-R DL sektör aralığı geçersiz.",
+    "es": "La unidad indicó un intervalo de sectores DVD-R DL no válido.",
+    "cs": "Mechanika ohlásila neplatný rozsah sektorů DVD-R DL."
+  },
+  "盘片已更换，请重新开始刻录。": {
+    "zh-CN": "盘片已更换，请重新开始刻录。",
+    "zh-TW": "光碟已更換，請重新開始燒錄。",
+    "en": "The disc was changed. Start the burn again.",
+    "ja": "ディスクが交換されました。書き込みをやり直してください。",
+    "tr": "Disk değiştirildi. Yazmayı yeniden başlatın.",
+    "es": "Se cambió el disco. Inicia de nuevo la grabación.",
+    "cs": "Disk byl vyměněn. Spusťte zápis znovu."
+  },
+  "当前 DVD±RW 盘片或刻录机已启用写保护。": {
+    "zh-CN": "当前 DVD±RW 盘片或刻录机已启用写保护。",
+    "zh-TW": "目前的 DVD±RW 光碟或燒錄機已啟用寫入保護。",
+    "en": "The current DVD±RW disc or recorder is write-protected.",
+    "ja": "現在の DVD±RW または書き込みドライブは書き込み保護されています。",
+    "tr": "Mevcut DVD±RW disk veya yazıcı yazmaya karşı korumalı.",
+    "es": "El DVD±RW o la grabadora tiene activada la protección contra escritura.",
+    "cs": "Disk DVD±RW nebo vypalovačka je chráněna proti zápisu."
+  },
+  "已取消清除盘片数据。": {
+    "zh-CN": "已取消清除盘片数据。",
+    "zh-TW": "已取消清除光碟資料。",
+    "en": "Disc erasure was canceled.",
+    "ja": "ディスクの消去を中止しました。",
+    "tr": "Disk silme iptal edildi.",
+    "es": "Se canceló el borrado del disco.",
+    "cs": "Mazání disku bylo zrušeno."
+  },
+  "Windows 刻录接口无法擦除当前 DVD±RW。": {
+    "zh-CN": "Windows 刻录接口无法擦除当前 DVD±RW。",
+    "zh-TW": "Windows 燒錄介面無法清除目前的 DVD±RW。",
+    "en": "The Windows burning interface cannot erase this DVD±RW.",
+    "ja": "Windows の書き込みインターフェイスでこの DVD±RW を消去できません。",
+    "tr": "Windows yazma arabirimi bu DVD±RW diski silemiyor.",
+    "es": "La interfaz de grabación de Windows no puede borrar este DVD±RW.",
+    "cs": "Rozhraní Windows pro zápis nemůže tento disk DVD±RW smazat."
+  },
+  "正在擦除 DVD±RW，擦除完成后将继续刻录…": {
+    "zh-CN": "正在擦除 DVD±RW，擦除完成后将继续刻录…",
+    "zh-TW": "正在清除 DVD±RW，完成後將繼續燒錄…",
+    "en": "Erasing the DVD±RW. Recording will continue afterward…",
+    "ja": "DVD±RW を消去しています。完了後に書き込みを続けます…",
+    "tr": "DVD±RW siliniyor. Silme tamamlanınca yazma devam edecek…",
+    "es": "Borrando el DVD±RW. La grabación continuará después…",
+    "cs": "Maže se DVD±RW. Zápis bude poté pokračovat…"
+  },
+  "双层 DVD 标靶的换层点或绘图区无效。": {
+    "zh-CN": "双层 DVD 标靶的换层点或绘图区无效。",
+    "zh-TW": "雙層 DVD 標靶的換層點或繪圖區無效。",
+    "en": "The dual-layer DVD target has an invalid layer break or drawing area.",
+    "ja": "2 層 DVD の標的のレイヤーブレークまたは描画領域が無効です。",
+    "tr": "Çift katmanlı DVD hedefinin geçiş noktası veya çizim alanı geçersiz.",
+    "es": "El cambio de capa o el área de diseño del patrón de doble capa no es válido.",
+    "cs": "Terč dvouvrstvého DVD má neplatný bod přechodu nebo oblast obrazu."
+  },
+  "DVD-R DL 标靶的总扇区数无效。": {
+    "zh-CN": "DVD-R DL 标靶的总扇区数无效。",
+    "zh-TW": "DVD-R DL 標靶的總磁區數無效。",
+    "en": "The DVD-R DL target has an invalid total sector count.",
+    "ja": "DVD-R DL 標的の総セクター数が無効です。",
+    "tr": "DVD-R DL hedefinin toplam sektör sayısı geçersiz.",
+    "es": "El número total de sectores del patrón DVD-R DL no es válido.",
+    "cs": "Celkový počet sektorů terče DVD-R DL je neplatný."
   }
 }

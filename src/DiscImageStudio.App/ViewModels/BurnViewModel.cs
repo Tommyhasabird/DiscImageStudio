@@ -551,6 +551,8 @@ public partial class BurnViewModel : ObservableObject
             bool dvd = IsDvdBurn;
             bool bluRay = IsBluRayBurn;
             bool calibration = UseCalibrationPattern;
+            if (dvd && !calibration && _shell.Export.ExportDualLayerDvd)
+                throw new InvalidOperationException(L.T("普通双层 DVD 项目请先导出 ISO，再使用支持换层点的工具和空白双层 DVD 刻录。"));
             int preparationRevision = _burnPreparationRevision;
             OpticalBurnMediaKind mediaKind = CurrentMediaKind;
             BurnWriteSpeedOption selectedWriteSpeed = SelectedSpeed ?? BurnWriteSpeedOption.Automatic;
