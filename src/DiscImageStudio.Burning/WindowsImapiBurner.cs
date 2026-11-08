@@ -79,6 +79,8 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
                     return ReadDvdMinusRLayerBoundary(transport, device.DisplayName);
                 if (mediaType == 0x16)
                     throw new InvalidOperationException("DVD-R DL 标定需要顺序刻录模式，当前光驱报告跳层刻录模式。");
+                if (deviceId is not null)
+                    throw new DvdDoubleLayerMediaRequiredException();
             }
             finally
             {
@@ -1332,7 +1334,7 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
         if (!request.DvdLayerBreakLba.HasValue && request.ContentLength / 2048 <= maxSingleLayerDvdSectors)
             return;
         if (physicalMediaType is not (DvdPlusRDoubleLayer or DvdMinusRDoubleLayer))
-            throw new InvalidOperationException("双层 DVD 镜像只能写入双层 DVD 盘片。");
+            throw new DvdDoubleLayerMediaRequiredException();
         if (!request.DvdLayerBreakLba.HasValue)
             throw new InvalidOperationException("双层 DVD 镜像缺少换层点，无法安全刻录。");
     }

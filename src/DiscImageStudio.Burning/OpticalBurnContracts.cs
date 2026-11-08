@@ -137,6 +137,9 @@ public sealed record OpticalBurnResult(
 public sealed class DvdLayerBoundaryRequiredException() : InvalidOperationException(
     "检测到双层 DVD，请读取换层点。") { }
 
+public sealed class DvdDoubleLayerMediaRequiredException() : InvalidOperationException(
+    "当前光驱未检测到 DVD DL。请放入空白双层 DVD 后重试。") { }
+
 public sealed record DvdLayerBoundary(string DeviceName, uint Layer0Sectors, bool IsLocked, uint? DvdMinusRTotalSectors = null);
 
 public interface IOpticalDiscBurner

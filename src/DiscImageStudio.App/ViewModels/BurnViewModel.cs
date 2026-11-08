@@ -800,6 +800,21 @@ public partial class BurnViewModel : ObservableObject
             ConfirmChecked = false;
             _shell.ShowToast(L.T("流式刻录完成"), L.T("流式刻录已经完成，可以取出光盘。"), ToastKind.Success);
         }
+        catch (DvdDoubleLayerMediaRequiredException exception)
+        {
+            if (ownsBusyState) _shell.AbortDockJob(L.T("失败：流式刻录"), expandLog: true);
+            string message = L.Error(exception);
+            _shell.AppendLog(L.F($"[{DateTime.Now:HH:mm:ss}] 流式刻录失败：{message}\n"));
+            if (System.Windows.Application.Current?.MainWindow is { } owner)
+            {
+                System.Windows.MessageBox.Show(owner, message, L.T("流式刻录未完成"),
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+            }
+            else
+            {
+                _shell.ShowToast(L.T("流式刻录未完成"), message, ToastKind.Warning);
+            }
+        }
         catch (OperationCanceledException exception)
         {
             if (ownsBusyState) _shell.AbortDockJob(L.T("已取消：流式刻录"), expandLog: false);

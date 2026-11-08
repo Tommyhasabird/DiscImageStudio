@@ -2581,5 +2581,14 @@
     "tr": "DVD-R DL hedefinin toplam sektör sayısı geçersiz.",
     "es": "El número total de sectores del patrón DVD-R DL no es válido.",
     "cs": "Celkový počet sektorů terče DVD-R DL je neplatný."
+  },
+  "当前光驱未检测到 DVD DL。请放入空白双层 DVD 后重试。": {
+    "zh-CN": "当前光驱未检测到 DVD DL。请放入空白双层 DVD 后重试。",
+    "zh-TW": "目前的光碟機未偵測到 DVD DL。請放入空白雙層 DVD 後重試。",
+    "en": "The selected drive did not detect a DVD DL disc. Insert a blank dual-layer DVD and try again.",
+    "ja": "選択したドライブで DVD DL が検出されませんでした。空の 2 層 DVD を入れてやり直してください。",
+    "tr": "Seçili sürücü DVD DL disk algılamadı. Boş bir çift katmanlı DVD takıp yeniden deneyin.",
+    "es": "La unidad seleccionada no detectó un DVD DL. Inserta un DVD de doble capa vacío y vuelve a intentarlo.",
+    "cs": "Vybraná mechanika nezjistila disk DVD DL. Vložte prázdné dvouvrstvé DVD a zkuste to znovu."
   }
 }
