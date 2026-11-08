@@ -551,18 +551,25 @@ public partial class BurnViewModel : ObservableObject
             bool dvd = IsDvdBurn;
             bool bluRay = IsBluRayBurn;
             bool calibration = UseCalibrationPattern;
-            if (dvd && !calibration && _shell.Export.ExportDualLayerDvd)
-                throw new InvalidOperationException(L.T("普通双层 DVD 项目请先导出 ISO，再使用支持换层点的工具和空白双层 DVD 刻录。"));
+            var (projectSplit, projectMinusTotal) = dvd && !calibration
+                ? _shell.Export.GetDvdLayerLayout() : (null, null);
             int preparationRevision = _burnPreparationRevision;
             OpticalBurnMediaKind mediaKind = CurrentMediaKind;
             BurnWriteSpeedOption selectedWriteSpeed = SelectedSpeed ?? BurnWriteSpeedOption.Automatic;
             OpticalBurnRequest request;
             string contentDescription;
             var dualLayerTarget = calibration ? _shell.Calibration.Target?.Parameters : null;
+            DvdLayerBoundary? projectBoundary = null;
             OpticalMediaCapacity capacity;
             if (dualLayerTarget?.DvdLayerBreakLba is uint split)
             {
                 long total = dualLayerTarget.DvdMinusRTotalSectors ?? 2L * split;
+                capacity = new OpticalMediaCapacity(total, total); // The burner validates the actual layout before writing.
+            }
+            else if (projectSplit is uint projectLayer0)
+            {
+                projectBoundary = await _opticalDiscBurner.ReadDvdLayerBoundaryAsync(device.Id);
+                long total = projectMinusTotal ?? 2L * projectLayer0;
                 capacity = new OpticalMediaCapacity(total, total); // The burner validates the actual layout before writing.
             }
             else
@@ -634,6 +641,26 @@ public partial class BurnViewModel : ObservableObject
                         + L.F($" · 绘图 LBA {plan.DrawingStartSector}–{plan.DrawingEndSectorExclusive - 1}")
                         + (plan.HasFileSystem ? L.F($" · 文件：{(_state.BdFilesAtOuterRing ? L.T("外圈") : L.T("内圈"))}") : string.Empty)
                         + (invert ? L.T(" · 反转 3T/6T") : L.T(" · 标准 3T/6T"));
+                }
+                else if (projectSplit is uint projectLayerBreak)
+                {
+                    var options = _shell.Export.GetDvdOptions(projectLayerBreak, projectMinusTotal);
+                    string label = string.IsNullOrWhiteSpace(_state.DvdVolumeLabel)
+                        ? "DISC_IMAGE" : _state.DvdVolumeLabel.Trim();
+                    var plan = DvdStreamingGenerator.PrepareDualLayer(
+                        _state.DvdDataDirectory.Trim(), projectLayerBreak, label, projectMinusTotal);
+                    request = new OpticalBurnRequest(device.Id, OpticalBurnMediaKind.DvdData,
+                        (long)plan.TotalSectors * 2048,
+                        (output, token) => DvdStreamingGenerator.GenerateHybrid(
+                            compositePath, output, options, plan, cancellationToken: token),
+                        selectedWriteSpeed.Speed)
+                    {
+                        DvdLayerBreakLba = projectLayerBreak,
+                        DvdMinusRDoubleLayer = projectMinusTotal.HasValue,
+                    };
+                    string format = projectMinusTotal.HasValue ? DvdDualLayerDefaults.Minus : DvdDualLayerDefaults.Plus;
+                    WindowsImapiBurner.ValidateDvdLayerBurnLayout(request, projectBoundary!);
+                    contentDescription = $"{format} · " + L.F($"{plan.TotalSectors} 扇区");
                 }
                 else if (dvd)
                 {

@@ -1352,7 +1352,7 @@ public sealed class WindowsImapiBurner : IOpticalDiscBurner
         ValidateDvdLayerBurnLayout(request, boundary);
     }
 
-    internal static void ValidateDvdLayerBurnLayout(OpticalBurnRequest request, DvdLayerBoundary boundary)
+    public static void ValidateDvdLayerBurnLayout(OpticalBurnRequest request, DvdLayerBoundary boundary)
     {
         if (!boundary.IsLocked)
             throw new InvalidOperationException("DVD+R DL 换层点尚未锁定。请生成 ISO 并使用可指定换层点的刻录工具。");

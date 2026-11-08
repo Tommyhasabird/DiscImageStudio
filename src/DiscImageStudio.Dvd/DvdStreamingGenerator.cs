@@ -127,14 +127,16 @@ public sealed class DvdHybridStreamingPlan
     internal DvdHybridStreamingPlan(
         HybridIsoImageWriter.LayoutPlan isoLayout,
         uint drawingStartLba,
-        uint drawingEndLbaExclusive)
+        uint drawingEndLbaExclusive, bool dualLayer = false)
     {
         IsoLayout = isoLayout;
         DrawingStartLba = drawingStartLba;
         DrawingEndLbaExclusive = drawingEndLbaExclusive;
+        IsDualLayer = dualLayer;
     }
 
     internal HybridIsoImageWriter.LayoutPlan IsoLayout { get; }
+    internal bool IsDualLayer { get; }
 
     public string SourceDirectory => IsoLayout.SourceDirectory;
 
@@ -166,6 +168,17 @@ public sealed class DvdHybridStreamingPlan
 public static class DvdStreamingGenerator
 {
     private const uint PsnOffset = 0x30000;
+
+    public static DvdHybridStreamingPlan PrepareDualLayer(
+        string dataDirectory, uint split, string volumeLabel, uint? minusTotal)
+    {
+        var layout = HybridIsoImageWriter.PlanDvdDoubleLayer(dataDirectory, split, volumeLabel, minusTotal);
+        uint blockSize = DvdEccBlockEncoder.SectorCount;
+        uint start = (layout.MetadataEndLbaExclusive + blockSize - 1) / blockSize * blockSize;
+        if (split < start + blockSize)
+            throw new ArgumentException("DVD DL Layer 0 leaves no complete ECC block for drawing.");
+        return new DvdHybridStreamingPlan(layout, start, split, dualLayer: true);
+    }
 
     public static DvdHybridStreamingPlan PrepareHybrid(
         string dataDirectory,
@@ -331,7 +344,8 @@ public static class DvdStreamingGenerator
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(plan);
         options.Validate();
-        if (plan.TotalSectors != options.OutputSectors)
+        uint expectedSectors = plan.IsDualLayer ? plan.DrawingEndLbaExclusive : plan.TotalSectors;
+        if (expectedSectors != options.OutputSectors)
         {
             throw new ArgumentException(
                 "Hybrid layout and DVD streaming options describe different disc sizes.",
@@ -339,6 +353,7 @@ public static class DvdStreamingGenerator
         }
 
         string sourceFullPath = Path.GetFullPath(imagePath);
+        long contentLength = (long)plan.TotalSectors * DvdEccBlockEncoder.PayloadBytesPerSector;
         Stopwatch stopwatch = Stopwatch.StartNew();
         if (plan.FilesAtOuterRing)
             HybridIsoImageWriter.WriteOuterRingPrefix(plan.IsoLayout, output, plan.DrawingStartLba, cancellationToken);
@@ -346,10 +361,10 @@ public static class DvdStreamingGenerator
             HybridIsoImageWriter.WriteSequentialPrefix(plan.IsoLayout, output, plan.DrawingStartLba, cancellationToken);
         long prefixBytes = checked(
             (long)plan.DrawingStartLba * DvdEccBlockEncoder.PayloadBytesPerSector);
-        int totalBlocks = checked((int)(options.OutputSectors / DvdEccBlockEncoder.SectorCount));
+        int totalBlocks = checked((int)(plan.TotalSectors / DvdEccBlockEncoder.SectorCount));
         progress?.Invoke(new DvdStreamingProgress(
             prefixBytes,
-            options.ContentLength,
+            contentLength,
             checked((int)(plan.DrawingStartLba / DvdEccBlockEncoder.SectorCount)),
             totalBlocks,
             stopwatch.Elapsed));
@@ -364,7 +379,7 @@ public static class DvdStreamingGenerator
             solveOptions,
             value => progress?.Invoke(new DvdStreamingProgress(
                 checked(prefixBytes + value.BytesWritten),
-                options.ContentLength,
+                contentLength,
                 checked((int)(plan.DrawingStartLba / DvdEccBlockEncoder.SectorCount)
                     + value.CompletedBlocks),
                 totalBlocks,
@@ -373,14 +388,14 @@ public static class DvdStreamingGenerator
         if (plan.FilesAtOuterRing)
         {
             HybridIsoImageWriter.WriteOuterRingSuffix(plan.IsoLayout, output, plan.DrawingEndLbaExclusive, cancellationToken);
-            progress?.Invoke(new DvdStreamingProgress(options.ContentLength, options.ContentLength,
+            progress?.Invoke(new DvdStreamingProgress(contentLength, contentLength,
                 totalBlocks, totalBlocks, stopwatch.Elapsed));
         }
         stopwatch.Stop();
         return new DvdStreamingSummary(
             sourceFullPath,
-            options.OutputSectors,
-            options.ContentLength,
+            plan.TotalSectors,
+            contentLength,
             drawing.ControlledWords,
             stopwatch.Elapsed,
             drawing.CompatibilityChanges);

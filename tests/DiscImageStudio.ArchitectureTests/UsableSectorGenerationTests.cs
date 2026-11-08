@@ -169,6 +169,14 @@ internal static class UsableSectorGenerationTests
         string minusPath = Path.Combine(directory, "dvd-minus-dl.iso");
         DvdImageGenerator.Generate(new(image, minusPath, limited, files, LayerBreakLba: 128, DvdMinusRTotalSectors: 240));
         byte[] minusBytes = File.ReadAllBytes(minusPath);
+        var streamPlan = DvdStreamingGenerator.PrepareDualLayer(files, 128, "DISC_IMAGE", 240);
+        using var streamedProject = new MemoryStream();
+        DvdStreamingGenerator.GenerateHybrid(image, streamedProject, limited with { TotalSectors = 128 }, streamPlan);
+        byte[] streamedBytes = streamedProject.ToArray();
+        Require(streamedBytes.Length == minusBytes.Length
+            && BinaryPrimitives.ReadUInt32LittleEndian(streamedBytes.AsSpan(16 * 2048 + 80)) == 240
+            && streamedBytes.AsSpan(32 * 2048).SequenceEqual(minusBytes.AsSpan(32 * 2048)),
+            "ordinary DVD-R DL streaming matches exported artwork and file data across the layer break");
         Require(minusBytes.Length == 240 * 2048
             && BinaryPrimitives.ReadUInt32LittleEndian(minusBytes.AsSpan(16 * 2048 + 80)) == 240
             && minusBytes.AsSpan(128 * 2048).IndexOf("usable capacity preserves outer files"u8) >= 0,
